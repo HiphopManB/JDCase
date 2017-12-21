@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="fragmen.bwei.com.jdcase.SearchActivity">
+    <fragmen.bwei.com.jdcase.MyTitile
+        android:id="@+id/mt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </fragmen.bwei.com.jdcase.MyTitile>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="热搜" />
+
+    <fragmen.bwei.com.jdcase.weight.FlowGroupView
+        android:id="@+id/flowGroupView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </fragmen.bwei.com.jdcase.weight.FlowGroupView>
+
+    <LinearLayout
+        android:id="@+id/lsjl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="历史记录" />
+
+        <ListView
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="清空历史记录" />
+    </LinearLayout>
+
+</LinearLayout>
