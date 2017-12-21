@@ -17,6 +17,7 @@ import fragmen.bwei.com.jdcase.Fragment.Fragment02;
 import fragmen.bwei.com.jdcase.Fragment.Fragment03;
 import fragmen.bwei.com.jdcase.Fragment.Fragment04;
 import fragmen.bwei.com.jdcase.Fragment.Fragment05;
+import fragmen.bwei.com.jdcase.ImmersionUtils;
 import fragmen.bwei.com.jdcase.R;
 
 public class ShowActivity extends AppCompatActivity implements View.OnClickListener {
@@ -50,7 +51,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
-
+        ImmersionUtils immersionUtils = new ImmersionUtils();
+        immersionUtils.setImmersion(getWindow(),getSupportActionBar());
         initView();
     }
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -117,6 +118,10 @@ public class ExpendAdapter extends BaseExpandableListAdapter {
             holder.im = view.findViewById(R.id.img);
             holder.tv_title = view.findViewById(R.id.tv_tel);
             holder.tv_content = view.findViewById(R.id.tv_content);
+            holder.im_delete = view.findViewById(R.id.im_delete);
+            holder.im_add = view.findViewById(R.id.im_add);
+            holder.tv_num = view.findViewById(R.id.tv_num);
+
             view.setTag(holder);
         }else
         {
@@ -125,9 +130,37 @@ public class ExpendAdapter extends BaseExpandableListAdapter {
         //赋值
         final GoodsCarBean.DataBean.ListBean listBean = childList.get(i).get(i1);
         holder.cbchild.setChecked(listBean.isChecked());
+        holder.tv_num.setText(listBean.getNum()+"");
         holder.im.setImageURI(listBean.getImages());
         holder.tv_title.setText(listBean.getTitle());
         holder.tv_content.setText(listBean.getPrice()+"");
+        holder.im_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int num = listBean.getNum();
+                if(num == 1){
+                    return;
+                }
+                holder.tv_num.setText(--num+"");
+                listBean.setNum(num);
+                if(holder.cbchild.isChecked()){
+                    EventPrice compute = compute();
+                    EventBus.getDefault().post(compute);
+                }
+            }
+        });
+        holder.im_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int num = listBean.getNum();
+                holder.tv_num.setText(++num+"");
+                listBean.setNum(num);
+                if (holder.cbchild.isChecked()){
+                    EventPrice compute = compute();
+                    EventBus.getDefault().post(compute);
+                }
+            }
+        });
         //逻辑判断-----------------------------
         holder.cbchild.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +193,7 @@ public class ExpendAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int i, int i1) {
-        return false;
+        return true;
     }
 
 
@@ -175,6 +208,9 @@ public class ExpendAdapter extends BaseExpandableListAdapter {
         SimpleDraweeView im;
         TextView tv_title;
         TextView tv_content;
+        ImageView im_delete;
+        ImageView im_add;
+        TextView tv_num;
     }
     //=-----------------逻辑方法
     //改变二级列表的状态
@@ -226,18 +262,20 @@ public class ExpendAdapter extends BaseExpandableListAdapter {
             changGroupCbState(i, flag);
             changeChildCbState(i, flag);
         }
-        //EventBus.getDefault().post(compute());
+        EventBus.getDefault().post(compute());
         notifyDataSetChanged();
     }
     //计算总价
     private EventPrice compute(){
         double price = 0;
+        int count =0;
         for (int i = 0; i < childList.size(); i++) {
             List<GoodsCarBean.DataBean.ListBean> listBeans = childList.get(i);
             for (int j = 0; j < listBeans.size(); j++) {
                 GoodsCarBean.DataBean.ListBean listBean = listBeans.get(j);
                 if (listBean.isChecked()){
-                    price += listBean.getPrice();
+                    price += listBean.getPrice()*listBean.getNum();
+                    count +=listBean.getNum();
                 }
 
             }
